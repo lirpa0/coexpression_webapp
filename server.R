@@ -1,13 +1,4 @@
 
-getSeqData<-function(orf_name){
-  sequence_info_df <- data.frame(transcript = c("chr1_43730",'chr1_67378'),
-                                 gene = c(NA,'gene1'),
-                                 cds_seq = c("ATG...", "ATGagsgas..."),
-                                 aa_seq = c("M...", "M..."))
-  seq_info <- sequence_info_df%>%dplyr::filter(transcript == orf_name | gene ==orf_name)
-  
-  seq_info
-}
 
 server <- function(input, output, session) {
 
@@ -17,7 +8,6 @@ server <- function(input, output, session) {
     output$orf_name_seq <- renderText(input$orf_name)
     
     seq_info = reactive(getSeqData(input$orf_name))()
-    print(seq_info)
     if (nrow(seq_info) == 0) {
       showModal(modalDialog(
         title = "Error",
@@ -29,7 +19,50 @@ server <- function(input, output, session) {
       output$cds_sequence <- renderText(seq_info$cds_seq)
       output$aa_sequence <- renderText(seq_info$aa_seq)
     }
-  })
+  
+    coexp_data<- reactive(getCoexpData(input$orf_name))()
+    gsea_data <- reactive(getGseaData(input$orf_name))()
+    
+    
+    orf_class_filter <- reactive({
+      case_when(
+        input$orf_class_filter == "all" ~ 'all',
+        input$orf_class_filter == "canonical" ~ 'canonical',
+        input$orf_class_filter == "noncanonical" ~ 'noncanonical'
+      )
+    })
+    
+    output$coexp_table <- DT::renderDataTable({
+      if (orf_class_filter() == 'all') {
+        coexp_data_filtered <- coexp_data
+      } else {
+        coexp_data_filtered <- coexp_data %>%
+          filter(is_canonical == orf_class_filter())
+      }
+      
+      
+      
+      DT::datatable(
+        coexp_data_filtered,
+        rownames = FALSE,
+        filter = "none",
+        options = list(pageLength = 25, autoWidth = TRUE, dom= "lfrtip"))
+      
+    })
+    output$gsea_table <- DT::renderDataTable({
+      gsea_data_filtered <- gsea_data #%>%
+      # filter(grepl(input$search_pathway, pathway_id, ignore.case = TRUE))
+      
+      DT::datatable(
+        gsea_data_filtered[, c("pathway","padj", "NES", "size")],
+        rownames = FALSE,
+        filter = "none",
+        options = list(pageLength = 25, autoWidth = TRUE,dom= "lfrtip")
+      )
+    })
+    })
+
+
   #seq_data <- observe({getSeqData(orf_name,output)})
 #  coexp_data <- observe({getCoexpData(orf_name,output)})
   
