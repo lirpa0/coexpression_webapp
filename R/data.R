@@ -1,7 +1,7 @@
 #readData <- function() {
 
 print("reading data")
-  rho_percentile <- readRDS('/home/aar75/coexpression/20221110_rho/spqn_raw5_sample400.RDS')
+  rho_percentile <- readRDS('data/rho_percentile.RDS')
   rho_percentile<-as.data.frame(rho_percentile)
   
   
