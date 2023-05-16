@@ -1,6 +1,4 @@
 library(shiny)
-library(dplyr)
-library(magrittr)
 library(DT)
 library(shinydashboard)
 library(shinyjs)

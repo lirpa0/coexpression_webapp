@@ -1,10 +1,9 @@
-
+library(magrittr)
+library(dplyr)
 
 server <- function(input, output, session) {
 
   observeEvent(input$submit_orf, {
-    #updateTabsetPanel(inputId = "params", selected = input$dist)
-   #orf_name <- input$orf_name
     output$orf_name_seq <- renderText(input$orf_name)
     
     seq_info = reactive(getSeqData(input$orf_name))()
@@ -51,8 +50,6 @@ server <- function(input, output, session) {
     })
     output$gsea_table <- DT::renderDataTable({
       gsea_data_filtered <- gsea_data #%>%
-      # filter(grepl(input$search_pathway, pathway_id, ignore.case = TRUE))
-      
       DT::datatable(
         gsea_data_filtered[, c("pathway","padj", "NES", "size")],
         rownames = FALSE,
@@ -61,17 +58,5 @@ server <- function(input, output, session) {
       )
     })
     })
-
-
-  #seq_data <- observe({getSeqData(orf_name,output)})
-#  coexp_data <- observe({getCoexpData(orf_name,output)})
-  
-  #output$seq_data <- seq_data
-  #output$coexp_data <- coexp_data
-  
-  
-  
-  
-  # 
 
 }
