@@ -9,6 +9,20 @@ getSeqData<-function(orf_name){
   seq_info
 }
 
+getNetwork <- function(orf_name, coexpression_df , thr){
+  orfs_in_subnet <- coexpression_df$transcript[coexpression_df$`coexpression percentile`>=thr]
+  weighted_adj <- rho_percentile[orfs_in_subnet,orfs_in_subnet ]
+  
+  adj = weighted_adj>=thr
+  g<- igraph::graph_from_adjacency_matrix(as.matrix(adj),
+                                          mode='undirected')%>%simplify()
+  gD3<-igraph_to_networkD3(g, group = ifelse(V(g)$name==orf_name,1,10))
+  
+  gD3
+  }
+
+
+
 getGseaData<-function(orf_name){
   
   gsea_data <- gsea_df %>%

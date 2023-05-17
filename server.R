@@ -1,5 +1,7 @@
 library(magrittr)
 library(dplyr)
+library(networkD3)
+library(igraph)
 
 server <- function(input, output, session) {
 
@@ -56,6 +58,19 @@ server <- function(input, output, session) {
         filter = "none",
         options = list(pageLength = 25, autoWidth = TRUE,dom= "lfrtip")
       )
+    })
+    d3_compatible_network <- reactive({
+      
+      d3_compatible_network<-getNetwork(input$orf_name, coexp_data, input$thr)
+      
+      })
+    
+    # d3_compatible_network<-getNetwork('chr1_43730',coexp_data_display, .9)
+    output$force <- renderForceNetwork({
+      forceNetwork(Links = d3_compatible_network()$links, Nodes = d3_compatible_network()$nodes, Source = "source",
+                   Target = "target", NodeID = "name",
+                   Group = "group",zoom=TRUE, opacity=1,fontSize=15,
+                   colourScale = JS('d3.scaleOrdinal(["#7fc97f", "#fdc086"])'))
     })
     })
 

@@ -34,7 +34,15 @@ ui <- fluidPage(
         column(6,
                h3("Gene Set Enrichment Analysis"),
                DT::dataTableOutput("gsea_table")
-        ))
+        )),
+      tabsetPanel(
+        # tabPanel("Simple Network", simpleNetworkOutput("simple")),
+        tabPanel("Force Network", 
+                 sliderInput("thr", "Coexpression threshold:",
+                             min = 0.8, max = 1, value = .9
+                 ),
+                 networkD3::forceNetworkOutput("force"))
+      ),
   )
 )
 )))
