@@ -18,7 +18,7 @@ ui <- fluidPage(
       condition = "input.view == 'seq_info_page'",
       h2("Sequence Information for ORF ", tags$span(textOutput("orf_name_seq"), style = "font-weight: bold;")),
       h3("CDS Sequence"),
-      verbatimTextOutput("cds_sequence"),
+      verbatimTextOutput("nt_seq"),
       h3("Amino Acid Sequence"),
       verbatimTextOutput("aa_sequence")#,
     ),

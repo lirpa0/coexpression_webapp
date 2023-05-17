@@ -1,4 +1,5 @@
 library(magrittr)
+library(stringr)
 library(dplyr)
 library(networkD3)
 library(igraph)
@@ -7,8 +8,8 @@ server <- function(input, output, session) {
 
   observeEvent(input$submit_orf, {
     output$orf_name_seq <- renderText(input$orf_name)
-    
-    seq_info = reactive(getSeqData(input$orf_name))()
+    orf_name <- reactive(convertOrfName(input$orf_name))
+    seq_info = reactive(getSeqData(orf_name()))()
     if (nrow(seq_info) == 0) {
       showModal(modalDialog(
         title = "Error",
@@ -17,12 +18,12 @@ server <- function(input, output, session) {
       ))
     } else {
       
-      output$cds_sequence <- renderText(seq_info$cds_seq)
+      output$nt_seq <- renderText(seq_info$nt_seq)
       output$aa_sequence <- renderText(seq_info$aa_seq)
     }
   
-    coexp_data<- reactive(getCoexpData(input$orf_name))()
-    gsea_data <- reactive(getGseaData(input$orf_name))()
+    coexp_data<- reactive(getCoexpData(orf_name()))()
+    gsea_data <- reactive(getGseaData(orf_name()))()
     
     
     orf_class_filter <- reactive({
@@ -61,7 +62,7 @@ server <- function(input, output, session) {
     })
     d3_compatible_network <- reactive({
       
-      d3_compatible_network<-getNetwork(input$orf_name, coexp_data, input$thr)
+      d3_compatible_network<-getNetwork(orf_name(), coexp_data, input$thr)
       
       })
     
