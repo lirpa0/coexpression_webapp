@@ -1,5 +1,6 @@
 
-ui <- fluidPage(
+ui <- function(req) {
+  fluidPage(
   
   tags$head(
     tags$link(rel = 'stylesheet', type="text/css", href = "styles.css")
@@ -46,3 +47,4 @@ ui <- fluidPage(
   )
 )
 )))
+}

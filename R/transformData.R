@@ -27,7 +27,7 @@ getNetwork <- function(orf_name, coexpression_df, thr) {
   orfs_in_subnet <- coexpression_df$transcript[coexpression_df$`coexpression percentile` >= thr]
   weighted_adj <- rho_percentile[orfs_in_subnet, orfs_in_subnet]
 
-  adj <- weighted_adj >= thr
+  adj <- round(weighted_adj, 3) >= thr
   rownames(adj) <- map_chr(rownames(adj), function(x) orf_ids[[x]])
   colnames(adj) <- rownames(adj)
   g <- igraph::graph_from_adjacency_matrix(as.matrix(adj),
