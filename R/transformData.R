@@ -1,16 +1,19 @@
 
 convertOrfName <- function(orf_name) {
-  if (str_detect(orf_name, "Y") & orf_name %in% orf_info$gene) {
+  if ((str_detect(orf_name, "Y") | str_detect(orf_name, "y")) & toupper(orf_name) %in% orf_info$gene) {
+    orf_name <- toupper(orf_name)
     transcript <- orf_info %>%
       filter(gene == orf_name) %>%
       select(transcript) %>%
       pull()
-  } else if (str_detect(orf_name, "orf") & orf_name %in% orf_info$orf_id) {
+  } else if ((str_detect(orf_name, "orf") | str_detect(orf_name, "ORF") )& tolower(orf_name) %in% orf_info$orf_id) {
+    orf_name <- tolower(orf_name)
     transcript <- orf_info %>%
       filter(orf_id == orf_name) %>%
       select(transcript) %>%
       pull()
-  } else if (orf_name %in% orf_info$transcript) {
+  } else if (tolower(orf_name) %in% orf_info$transcript) {
+    orf_name <- tolower(orf_name)
     transcript <- orf_name
   }else{
     transcript <- NULL
