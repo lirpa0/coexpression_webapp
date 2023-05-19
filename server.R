@@ -27,8 +27,25 @@ server <- function(input, output, session) {
       
       output$nt_seq <- renderText(seq_info$nt_seq)
       output$aa_sequence <- renderText(seq_info$aa_seq)
-    
-  
+      
+      orf_coord_info <- reactive(getOrfCoordInfo(orf_name()))
+      
+      output$orf_info <- DT::renderDataTable({
+        
+        DT::datatable(
+          orf_coord_info(),
+          rownames = FALSE,
+          filter = "none",
+          options = list(scrollX = TRUE, paging =FALSE, searching=FALSE , 
+                         autoWidth = FALSE,dom = 't')
+        )
+      })
+      browser_link <- reactive(a("Genome Browser", href=constructGenomeBrowserLink(orf_coord_info()),
+                                 target="_blank"))
+      
+      output$browser <- renderUI({
+        tagList("", browser_link())
+      })
     coexp_data<- reactive(getCoexpData(orf_name()))()
     gsea_data <- reactive(getGseaData(orf_name()))()
     
@@ -59,7 +76,7 @@ server <- function(input, output, session) {
           select(-transcript),
         rownames = FALSE,
         filter = "none",
-        options = list(pageLength = 10, autoWidth = TRUE, dom= "lfrtip"))
+        options = list(scrollX = TRUE, pageLength = 10, autoWidth = F, dom= "lfrtip"))
       
     })
     output$gsea_table <- DT::renderDataTable({
@@ -68,7 +85,7 @@ server <- function(input, output, session) {
         gsea_data_filtered[, c("pathway","TERM","padj", "NES")],
         rownames = FALSE,
         filter = "none",
-        options = list(pageLength = 10, autoWidth = TRUE,dom= "lfrtip")
+        options = list(scrollX = TRUE, pageLength = 10, autoWidth = F,dom= "lfrtip")
       )
     })
     d3_compatible_network <- reactive({
@@ -81,7 +98,7 @@ server <- function(input, output, session) {
     output$force <- renderForceNetwork({
       forceNetwork(Links = d3_compatible_network()$links, Nodes = d3_compatible_network()$nodes, Source = "source",
                    Target = "target", NodeID = "name",
-                   Group = "group",zoom=TRUE, opacity=1,fontSize=15,
+                   Group = "group",zoom=TRUE, opacity=1,fontSize=15,fontFamily = "Source Sans Pro",
                    colourScale = JS('d3.scaleOrdinal(["#fdc086", "#7570b3", "#1b9e77"])'), legend=TRUE)
     })
     }
