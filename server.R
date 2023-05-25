@@ -72,7 +72,9 @@ server <- function(input, output, session) {
         coexp_data_filtered%>%
           rename("ORF ID" = "orf_id",
                  "Systematic name"="gene",
-                 "ORF classification" = "is_canonical")%>%
+                 "Gene name" = "GENENAME",
+                 "ORF classification" = "is_canonical",
+                 "Coexpression (rho)" = "coexpression_percentile")%>%
           select(-transcript),
         rownames = FALSE,
         filter = "none",
@@ -88,12 +90,13 @@ server <- function(input, output, session) {
         options = list(scrollX = TRUE, pageLength = 10, autoWidth = F,dom= "lfrtip")
       )
     })
+    print(orf_name())
     d3_compatible_network <- reactive({
       
       d3_compatible_network<-getNetwork(orf_name(), coexp_data, input$thr)
       
       })
-    
+    print(d3_compatible_network())
     # d3_compatible_network<-getNetwork('chr1_43730',coexp_data_display, .9)
     output$force <- renderForceNetwork({
       forceNetwork(Links = d3_compatible_network()$links, Nodes = d3_compatible_network()$nodes, Source = "source",

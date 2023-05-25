@@ -22,10 +22,15 @@ print("data loaded")
 # con = DBI::dbConnect(RMariaDB::MariaDB(), groups='mariaDB')
 # 
   # translation_info 
-  
+
+
 # orf_info = DBI::dbGetQuery(con, "select * from omer.coexpressionOrfList_blaste4")
 # 
-# saveRDS(orf_info, 'data/orf_info.RDS')
+# orf_info%>%left_join(
+#   org.Sc.sgd.db::org.Sc.sgd.db%>%AnnotationDbi::select(keys=AnnotationDbi::keys(.), 
+#                                                        columns = 'GENENAME')%>%tidyr::drop_na(),
+#   by=c('gene'='ORF')
+# )%>%saveRDS('data/orf_info.RDS')
 # library(GO.db)
 # 
 # gsea_df <- DBI::dbGetQuery(con, "select * from omer.fgsea_go_slim")%>%left_join(

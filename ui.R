@@ -5,7 +5,9 @@ ui <- function(req) {
   tags$head(
     tags$link(rel = 'stylesheet', type="text/css", href = "styles.css")
   ),
-  titlePanel("ORF Information App"),
+  navbarPage("ORF Information App",
+             tabPanel("Search",
+ # titlePanel(),
   sidebarLayout(
     sidebarPanel(
     textInput("orf_name", "Enter your ORF name here", width = "100%"),
@@ -57,5 +59,13 @@ ui <- function(req) {
       
   )
 )
-)))
+))),
+tabPanel("About",
+         
+         p("This website aims to accompany //paper. All relevant supplementary data could be found at \n"),
+         a("figshare", target="_blank",href="https://figshare.com/articles/dataset/Exploring_the_noncanonical_translatome_using_massively_integrated_coexpression_analysis/22289614")
+
+)
+
+))
 }

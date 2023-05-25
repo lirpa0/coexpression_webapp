@@ -15,6 +15,12 @@ convertOrfName <- function(orf_name) {
   } else if (tolower(orf_name) %in% orf_info$transcript) {
     orf_name <- tolower(orf_name)
     transcript <- orf_name
+  }else if(toupper(orf_name) %in% orf_info$GENENAME){
+    orf_name <- toupper(orf_name)
+    transcript <- orf_info %>%
+      filter(GENENAME == orf_name) %>%
+      select(transcript) %>%
+      pull()
   }else{
     transcript <- NULL
   }
@@ -39,7 +45,7 @@ getSeqData <- function(orf_name) {
 }
 
 getNetwork <- function(orf_name, coexpression_df, thr) {
-  orfs_in_subnet <- coexpression_df$transcript[coexpression_df$`coexpression percentile` >= thr]
+  orfs_in_subnet <- coexpression_df$transcript[coexpression_df$coexpression_percentile >= thr]
 
   #check if the network is empty, there will always be the selected ORF in the network so it is == 1.
   if(length(orfs_in_subnet)==1){
@@ -99,8 +105,8 @@ getCoexpData <- function(orf_name) {
     left_join(orf_info, by = "transcript") %>%
     mutate(coexpression_percentile = round(coexpression, 3)) %>%
     arrange(desc(coexpression_percentile))
-  coexp_data_display <- coexp_data[, c("orf_id","transcript", "gene", "is_canonical", "coexpression_percentile")]
-  colnames(coexp_data_display) <- c("orf_id","transcript", "gene", "is_canonical", "coexpression percentile")
+  coexp_data_display <- coexp_data[, c("orf_id","transcript", "gene", "GENENAME","is_canonical", "coexpression_percentile")]
+ # colnames(coexp_data_display) <- c("orf_id","transcript", "gene", "GENENAME",  "is_canonical", "coexpression percentile")
 
 
   coexp_data_display
