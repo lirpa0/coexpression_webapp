@@ -80,7 +80,7 @@ getNetwork <- function(orf_name, coexpression_df, thr) {
 
 getGseaData <- function(orf_name) {
   gsea_data <- gsea_df %>%
-    filter(transcript == orf_name) %>%
+    filter(transcript == orf_name, pathway != 'GO:0008150') %>%
     arrange(padj)%>%
     mutate(
       padj = formatC(padj, format = "e", digits = 1),

@@ -4,6 +4,8 @@ library(dplyr)
 library(networkD3)
 library(igraph)
 library(purrr)
+library(rclipboard)
+
 
 server <- function(input, output, session) {
 
@@ -75,6 +77,7 @@ server <- function(input, output, session) {
                  "Gene name" = "GENENAME",
                  "ORF classification" = "is_canonical",
                  "Coexpression (rho)" = "coexpression_percentile")%>%
+          filter(transcript!=orf_name())%>%
           select(-transcript),
         rownames = FALSE,
         filter = "none",
@@ -90,13 +93,11 @@ server <- function(input, output, session) {
         options = list(scrollX = TRUE, pageLength = 10, autoWidth = F,dom= "lfrtip")
       )
     })
-    print(orf_name())
     d3_compatible_network <- reactive({
       
       d3_compatible_network<-getNetwork(orf_name(), coexp_data, input$thr)
       
       })
-    print(d3_compatible_network())
     # d3_compatible_network<-getNetwork('chr1_43730',coexp_data_display, .9)
     output$force <- renderForceNetwork({
       forceNetwork(Links = d3_compatible_network()$links, Nodes = d3_compatible_network()$nodes, Source = "source",
@@ -105,6 +106,26 @@ server <- function(input, output, session) {
                    colourScale = JS('d3.scaleOrdinal(["#fdc086", "#7570b3", "#1b9e77"])'), legend=TRUE)
     })
     }
+    output$clip_nt <- renderUI({
+      output$clip_nt <- renderUI({
+        rclipButton(
+          inputId = "clipbtn",
+          label = "Copy Nucleotide sequence",
+          clipText = seq_info$nt_seq , 
+          icon = icon("clipboard")
+        )
+      })
+    })
+    output$clip_aa <- renderUI({
+      output$clip_aa <- renderUI({
+        rclipButton(
+          inputId = "clipbtn",
+          label = "Copy AA sequence",
+          clipText = seq_info$aa_seq , 
+          icon = icon("clipboard")
+        )
+      })
+    })
     })
 
 }

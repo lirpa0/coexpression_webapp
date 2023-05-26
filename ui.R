@@ -19,16 +19,26 @@ ui <- function(req) {
   mainPanel(
     conditionalPanel(condition = 'input.submit_orf',
     conditionalPanel(
+      rclipboard::rclipboardSetup(),
+      
       condition = "input.view == 'seq_info_page'",
       h2("Sequence Information for ORF ", tags$span(textOutput("orf_name_seq"), style = "font-weight: bold;")),
       h3("CDS Sequence"),
       verbatimTextOutput("nt_seq"),
+      uiOutput("clip_nt"),
+      
       h3("Amino Acid Sequence"),
       verbatimTextOutput("aa_sequence"),
+      # UI ouputs for the copy-to-clipboard buttons
+      uiOutput("clip_aa"),
       
       h3("Coordinates"),
       DT::dataTableOutput("orf_info"),
-      h3(uiOutput("browser"))
+      h3(uiOutput("browser")),
+      
+
+      
+
     ),
     conditionalPanel(
       condition = "input.view == 'coexp_info_page'",

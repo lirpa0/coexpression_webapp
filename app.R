@@ -1,4 +1,5 @@
 library(shiny)
+library(rclipboard)
 library(DT)
 
 source("ui.R")
