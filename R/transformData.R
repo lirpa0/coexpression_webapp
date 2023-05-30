@@ -100,7 +100,9 @@ getCoexpData <- function(orf_name) {
     "coexpression" = rho_percentile[, which(colnames(rho_percentile) == orf_name)],
     "transcript" = rownames(rho_percentile)
   )
-
+  if(is.null(coexp_data$coexpression)){
+    return(NULL)
+  }
   coexp_data <- coexp_data %>%
     left_join(orf_info, by = "transcript") %>%
     mutate(coexpression_percentile = round(coexpression, 3)) %>%

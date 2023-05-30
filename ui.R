@@ -42,34 +42,43 @@ ui <- function(req) {
     ),
     conditionalPanel(
       condition = "input.view == 'coexp_info_page'",
-      h2("Coexpression Info for ORF ", tags$span(textOutput("orf_name_coexp"), style = "font-weight: bold;")),
-      tabsetPanel(
-        tabPanel("Coexpression Network",
-                 fluidRow(
-                   column(6,
-                          h3("Coexpression"),
-                          selectInput("orf_class_filter", "Filter by ORF classification:", c("all", "canonical", "noncanonical")),
-                          DT::dataTableOutput("coexp_table")
-                   ),
-                   column(6,
-                          sliderInput("thr", "Coexpression threshold:",
-                                      min = 0.8, max = 1, value = .9
-                          ),
-                          networkD3::forceNetworkOutput("force"))
+      conditionalPanel(
+        condition = "typeof output.coexp_table !== 'null'",
+        
+        h2("Coexpression Info for ORF ", tags$span(textOutput("orf_name_coexp"), style = "font-weight: bold;")),
+        tabsetPanel(
+          tabPanel("Coexpression Network",
+                   fluidRow(
+                     column(6,
+                            h3("Coexpression"),
+                            selectInput("orf_class_filter", "Filter by ORF classification:", c("all", "canonical", "noncanonical")),
+                            DT::dataTableOutput("coexp_table")
+                     ),
+                     column(6,
+                            sliderInput("thr", "Coexpression threshold:",
+                                        min = 0.8, max = 1, value = .9
+                            ),
+                            networkD3::forceNetworkOutput("force"))
+                     
+                   )),
+          # tabPanel("Simple Network", simpleNetworkOutput("simple")),
+          tabPanel("Gene set enrichment", 
+                   h3("Gene Set Enrichment Analysis"),
+                  # h3("foo"),
                    
-                 )),
-        # tabPanel("Simple Network", simpleNetworkOutput("simple")),
-        tabPanel("Gene set enrichment", 
-                 h3("Gene Set Enrichment Analysis"),
-                # h3("foo"),
-                 
-                 DT::dataTableOutput("gsea_table") 
-        ),
-),
+                   DT::dataTableOutput("gsea_table") 
+          ),
+  ),
       
+  ),
+  conditionalPanel(
+    condition = "typeof output.coexp_table === 'undefined'",
+    h3(
+      "No coexpression info founds"
+    )
   )
 )
-))),
+)))),
 tabPanel("About",
          
          p("This website aims to accompany //paper. All relevant supplementary data could be found at \n"),
