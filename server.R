@@ -98,12 +98,16 @@ server <- function(input, output, session) {
       d3_compatible_network<-getNetwork(orf_name(), coexp_data, input$thr)
       
       })
-    # d3_compatible_network<-getNetwork('chr1_43730',coexp_data_display, .9)
+   
+    myColors <- paste0('d3.scaleOrdinal()
+                  .domain(["' ,  d3_compatible_network()$nodes[1,2], '", "Canonical", "Noncanonical"])
+                  .range(["#fdc086",  "#7570b3", "#1b9e77"])')
+   
     output$force <- renderForceNetwork({
       forceNetwork(Links = d3_compatible_network()$links, Nodes = d3_compatible_network()$nodes, Source = "source",
                    Target = "target", NodeID = "name",
                    Group = "group",zoom=TRUE, opacity=1,fontSize=15,fontFamily = "Source Sans Pro",
-                   colourScale = JS('d3.scaleOrdinal(["#fdc086", "#7570b3", "#1b9e77"])'), legend=TRUE)
+                   colourScale = JS(myColors), legend=TRUE)
     })
     }
     output$clip_nt <- renderUI({
