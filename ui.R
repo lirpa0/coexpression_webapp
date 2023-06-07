@@ -49,12 +49,12 @@ ui <- function(req) {
         tabsetPanel(
           tabPanel("Coexpression Network",
                    fluidRow(
-                     column(6,
+                     column(8,
                             h3("Coexpression"),
                             selectInput("orf_class_filter", "Filter by ORF classification:", c("all", "canonical", "noncanonical")),
                             DT::dataTableOutput("coexp_table")
                      ),
-                     column(6,
+                     column(4,
                             sliderInput("thr", "Coexpression threshold:",
                                         min = 0.8, max = 1, value = .9
                             ),
@@ -74,7 +74,7 @@ ui <- function(req) {
   conditionalPanel(
     condition = "typeof output.coexp_table === 'undefined'",
     h3(
-      "No coexpression info founds"
+      "No coexpression info found"
     )
   )
 )

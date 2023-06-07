@@ -10,7 +10,7 @@ library(rclipboard)
 server <- function(input, output, session) {
 
   observeEvent(input$submit_orf, {
-    
+    updateSliderInput(session, "thr", value = 1)
     orf_name <- eventReactive(input$submit_orf,
                               {
                               convertOrfName(input$orf_name)
@@ -94,22 +94,30 @@ server <- function(input, output, session) {
           options = list(scrollX = TRUE, pageLength = 10, autoWidth = F,dom= "lfrtip")
         )
       })
-      d3_compatible_network <- reactive({
-        
-        d3_compatible_network<-getNetwork(orf_name(), coexp_data(), input$thr)
-        
-      })
+      thr = quantile(coexp_data()$coexpression_percentile,.999)
+      updateSliderInput(session, "thr", value = as.numeric(thr))
       
-      myColors <- paste0('d3.scaleOrdinal()
+      observeEvent(input$thr, {
+        d3_compatible_network <- reactive({
+          
+          d3_compatible_network<-getNetwork(orf_name(), coexp_data(), input$thr)
+          
+        })
+        
+        myColors <- paste0('d3.scaleOrdinal()
                   .domain(["' ,  d3_compatible_network()$nodes[1,2], '", "Canonical", "Noncanonical"])
                   .range(["#fdc086",  "#7570b3", "#1b9e77"])')
-      
-      output$force <- renderForceNetwork({
-        forceNetwork(Links = d3_compatible_network()$links, Nodes = d3_compatible_network()$nodes, Source = "source",
-                     Target = "target", NodeID = "name",
-                     Group = "group",zoom=TRUE, opacity=1,fontSize=15,fontFamily = "Source Sans Pro",
-                     colourScale = JS(myColors), legend=TRUE)
+
+        output$force <- renderForceNetwork({
+          forceNetwork(Links = d3_compatible_network()$links, Nodes = d3_compatible_network()$nodes, Source = "source",
+                       Target = "target", NodeID = "name",
+                       Group = "group",zoom=TRUE, opacity=1,fontSize=15,fontFamily = "Source Sans Pro",
+                       colourScale = JS(myColors), legend=TRUE)
+        })
+
       })
+     
+
     }
     }
     
