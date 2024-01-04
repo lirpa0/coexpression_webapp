@@ -11,9 +11,11 @@ ui <- function(req) {
   sidebarLayout(
     sidebarPanel(
     textInput("orf_name", "Enter your ORF name here", width = "100%"),
+    p('e.g. orf14870 or YBR196C or PGI1', style = "font-size:10px;line-height:0.1"),
     selectInput("view", "Result Type",
                 c(Sequence = "seq_info_page", Coexpression = "coexp_info_page")
     ),
+   
     actionButton("submit_orf", "Submit"),
     width=3),
   mainPanel(
@@ -81,8 +83,9 @@ ui <- function(req) {
 )))),
 tabPanel("About",
          
-         p("This website aims to accompany //paper. All relevant supplementary data could be found at \n"),
-         a("figshare", target="_blank",href="https://figshare.com/articles/dataset/Exploring_the_noncanonical_translatome_using_massively_integrated_coexpression_analysis/22289614")
+         p("This website accompanies 'Massively integrated coexpression analysis reveals transcriptional regulation, evolution and cellular implications of the noncanonical translatome' paper.\nAll relevant supplementary data can be found at", a("figshare", target="_blank",href="https://figshare.com/articles/dataset/Exploring_the_noncanonical_translatome_using_massively_integrated_coexpression_analysis/22289614")),
+         #a("figshare", target="_blank",href="https://figshare.com/articles/dataset/Exploring_the_noncanonical_translatome_using_massively_integrated_coexpression_analysis/22289614"), 
+         p('A list of all ORFs can be found in Supplementary Data file 2.')
 
 )
 

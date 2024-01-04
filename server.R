@@ -70,29 +70,50 @@ server <- function(input, output, session) {
             filter(is_canonical == orf_class_filter())
         }
         
+        coexp_data_show<-coexp_data_filtered%>%
+          rename("ORF ID" = "orf_id",
+                 "Systematic name"="gene",
+                 "Gene name" = "GENENAME",
+                 "ORF classification" = "is_canonical",
+                 "Coexpression (rho)" = "coexpression_percentile")%>%
+          filter(transcript!=orf_name())%>%
+          select(-transcript)
         
+        output$downloadData <- downloadHandler(
+          filename = function() {
+            paste0(input$orf_name,"_coexpression.csv")
+          },
+          content = function(con) {
+            write.csv(coexp_data_show, con)
+          }
+        )
         
         DT::datatable(
-          coexp_data_filtered%>%
-            rename("ORF ID" = "orf_id",
-                   "Systematic name"="gene",
-                   "Gene name" = "GENENAME",
-                   "ORF classification" = "is_canonical",
-                   "Coexpression (rho)" = "coexpression_percentile")%>%
-            filter(transcript!=orf_name())%>%
-            select(-transcript),
+          coexp_data_show,
           rownames = FALSE,
           filter = "none",
-          options = list(scrollX = TRUE, pageLength = 10, autoWidth = F, dom= "lfrtip"))
+          options = list(
+            scrollX = TRUE, pageLength = 10, autoWidth = F, dom= "lfrtip"))
         
       })
-      output$gsea_table <- DT::renderDataTable({
+      output$gsea_table <- DT::renderDataTable(server=T,{
         DT::datatable(
           gsea_data()[, c("pathway","TERM","padj", "NES")],
           rownames = FALSE,
           filter = "none",
-          options = list(scrollX = TRUE, pageLength = 10, autoWidth = F,dom= "lfrtip")
-        )
+          extensions = c('Buttons'),
+          options = list(
+            buttons=list(
+              list(extend = "csv", text = "Download GSEA Results", filename = paste0(input$orf_name,"_gsea"),
+                   exportOptions = list(
+                     modifier = list(page = "all")
+                   )
+              )
+            ),
+            scrollX = TRUE, pageLength = 10, 
+            autoWidth = F,dom= "Blfrtip"),
+          class='display'
+          )
       })
       thr = quantile(coexp_data()$coexpression_percentile,.999)
       updateSliderInput(session, "thr", value = as.numeric(thr))
