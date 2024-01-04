@@ -13,7 +13,7 @@ ui <- function(req) {
     textInput("orf_name", "Enter your ORF name here", width = "100%"),
     p('e.g. orf14870 or YBR196C or PGI1', style = "font-size:10px;line-height:0.1"),
     selectInput("view", "Result Type",
-                c(Sequence = "seq_info_page", Coexpression = "coexp_info_page")
+                c(Coexpression = "coexp_info_page",Sequence = "seq_info_page")
     ),
    
     actionButton("submit_orf", "Submit"),
@@ -37,10 +37,6 @@ ui <- function(req) {
       h3("Coordinates"),
       DT::dataTableOutput("orf_info"),
       h3(uiOutput("browser")),
-      
-
-      
-
     ),
     conditionalPanel(
       condition = "input.view == 'coexp_info_page'",
@@ -49,27 +45,27 @@ ui <- function(req) {
         
         h2("Coexpression Info for ORF ", tags$span(textOutput("orf_name_coexp"), style = "font-weight: bold;")),
         tabsetPanel(
-          tabPanel("Coexpression Network",
-                   fluidRow(
-                     column(8,
-                            h3("Coexpression"),
-                            selectInput("orf_class_filter", "Filter by ORF classification:", c("all", "canonical", "noncanonical")),
-                            DT::dataTableOutput("coexp_table")
-                     ),
-                     column(4,
-                            sliderInput("thr", "Coexpression threshold:",
-                                        min = 0.8, max = 1, value = .9
-                            ),
-                            networkD3::forceNetworkOutput("force"))
-                     
-                   )),
+          
           # tabPanel("Simple Network", simpleNetworkOutput("simple")),
           tabPanel("Gene set enrichment", 
                    h3("Gene Set Enrichment Analysis"),
                   # h3("foo"),
                    
                    DT::dataTableOutput("gsea_table") 
-          ),
+          ),tabPanel("Coexpression Network",
+                     fluidRow(
+                       column(8,
+                              h3("Coexpression"),
+                              selectInput("orf_class_filter", "Filter by ORF classification:", c("all", "canonical", "noncanonical")),
+                              DT::dataTableOutput("coexp_table")
+                       ),
+                       column(4,
+                              sliderInput("thr", "Coexpression threshold:",
+                                          min = 0.8, max = 1, value = .9
+                              ),
+                              networkD3::forceNetworkOutput("force"))
+                       
+                     )),
   ),
       
   ),
@@ -82,10 +78,7 @@ ui <- function(req) {
 )
 )))),
 tabPanel("About",
-         
-         p("This website accompanies 'Massively integrated coexpression analysis reveals transcriptional regulation, evolution and cellular implications of the noncanonical translatome' paper.\nAll relevant supplementary data can be found at", a("figshare", target="_blank",href="https://figshare.com/articles/dataset/Exploring_the_noncanonical_translatome_using_massively_integrated_coexpression_analysis/22289614")),
-         #a("figshare", target="_blank",href="https://figshare.com/articles/dataset/Exploring_the_noncanonical_translatome_using_massively_integrated_coexpression_analysis/22289614"), 
-         p('A list of all ORFs can be found in Supplementary Data file 2.')
+         includeHTML("www/about.html"),
 
 )
 

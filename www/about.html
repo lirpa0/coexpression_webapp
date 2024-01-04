@@ -1,0 +1,43 @@
+
+         <h1>Source</h1>
+        <p>This website accompanies 'Massively integrated coexpression analysis reveals transcriptional regulation, evolution and cellular implications of the noncanonical translatome' paper. </p>
+        
+        <p>All relevant supplementary data can be found at <a href='https://figshare.com/articles/dataset/Exploring_the_noncanonical_translatome_using_massively_integrated_coexpression_analysis/22289614'>figshare</a>.
+        </p> 
+<p><b>To calculate coexpression</b> at the translatome scale in <i>S. cerevisiae</i>, we integrated a vast dataset of RNA-seq samples, applied center log ratio (clr) transformation, and used the proportionality metric ρ for quantification. We addressed data sparsity and reliability by discarding observations with low raw counts and setting a minimum sample threshold, resulting in an 11,630 by 11,630 coexpression matrix. Additionally, we normalized the data using spatial quantile normalization (SpQN) to correct for expression level biases, and created a network representation by considering only the top 0.2% of ρ values between all ORF pairs. </p><br>
+ <img src="about_img1.png" width="500" height="150"> <br>
+<p> The list of RNA-Seq data we used is listed in <a href='https://figshare.com/ndownloader/files/39639466'> Supplementary Data 1</a>
+<p><b>To determine the transcriptional associations of nORFs with specific cellular processes</b>, we performed gene set enrichment analyses (GSEA) on the coexpression partners of each cORF and nORF. In this method, we took an ordered list of genes, sorted by their coexpression level, and assessed whether higher-ranked genes were preferentially annotated with specific Gene Ontology (GO) terms. This approach allowed us to identify potential functional associations of nORFs and cORFs with various cellular processes based on the patterns of coexpression.</p>
+<p>See methods of our paper for details</p>
+             <h1>Navigation</h1>
+<p><b>Main Navigation:</b> At the top, you'll find a navigation bar titled 'ORF Information App.' </p><p>This contains two main tabs: 'Search' and 'About.'</p>
+<p><b>Using the Search Function</b></p>
+<p><b>Accessing the Search Tab:</b> Click on the 'Search' tab to begin exploring ORF data.</p>
+<p><b>Entering ORF Name:</b>In the sidebar, there's a text input field labeled 'Enter your ORF name here.' Type the name of the ORF you're interested in (e.g., orf14870, YBR196C, PGI1).</p> <br>
+ <img src="about_img2.png" width="200" height="150"> <br>
+<p><b>Selecting Result Type:</b> Below the text input, choose the type of results you want to view: 'Coexpression' or 'Sequence.'</p><br>
+ <img src="about_img3.png" width="200" height="150"> <br>
+
+<p><b>Submit Your Query:</b> After entering the ORF name and selecting the result type, click the 'Submit' button to proceed.</p>
+<h1>Viewing Results</h1>
+<p><b>Sequence Information:</b> If you chose 'Sequence' in the result type:</p>
+
+<p>
+    A section will appear displaying the sequence information of the ORF, including CDS (coding sequence), amino acid sequence, and genomic coordinates.
+    You can copy sequences to clipboard for further use.
+</p>
+ <img src="about_img4.png" width="500" height="250"> 
+
+<p><b>Coexpression Information:</b> If 'Coexpression' is selected:</p>
+
+<p>
+    The app will display coexpression information related to the ORF.
+    It includes a detailed analysis like Gene Set Enrichment (corresponds to <a href='https://figshare.com/ndownloader/files/41294586'>Supplementary Data 4</a> in Rich et al.) and a Coexpression Network (corresponds to <a href='https://figshare.com/ndownloader/files/41294766'>Supplementary Data 3</a> in Rich et al.), which helps understand the ORF's relationship with other genes and its potential cellular roles.
+</p>
+<p><b>Gene set enrichment analysis example</b></p>
+ <img src="about_img5.png" width="500" height="250"><br><br>
+<p><b>Coexpression data</b></p>
+ <img src="about_img6.png" width="500" height="250"> <br>
+
+<p>You can use sliders and filters to refine the coexpression network and thresholds.</p>
+              
