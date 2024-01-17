@@ -70,7 +70,7 @@ ui <- function(req) {
       
   ),
   conditionalPanel(
-    condition = "typeof output.coexp_table === 'undefined'",
+    condition = "typeof output.gsea_table === 'undefined'",
     h3(
       "No coexpression info found"
     )

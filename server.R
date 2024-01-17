@@ -98,7 +98,7 @@ server <- function(input, output, session) {
         })
         output$gsea_table <- DT::renderDataTable(server=T,{
           DT::datatable(
-            gsea_data()[, c("pathway","TERM","padj", "NES")],
+            gsea_data()[, c("pathway","TERM","padj", "NES")]%>%rename("GO ID" = "pathway"),
             rownames = FALSE,
             filter = "none",
             extensions = c('Buttons'),
