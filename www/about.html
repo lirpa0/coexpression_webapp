@@ -1,24 +1,27 @@
-
+<head></head>
+<body>
 <h1>Source</h1>
-        <p>This website accompanies 'Massively integrated coexpression analysis reveals transcriptional regulation, evolution and cellular implications of the noncanonical translatome' paper. </p>
+        <p>This website accompanies 'Massively Integrated Coexpression Analysis Reveals Transcriptional Regulation, Evolution and Cellular Implications of the Noncanonical Translatome' paper. </p>
         
         <p>All relevant supplementary data can be found at <a href='https://figshare.com/articles/dataset/Exploring_the_noncanonical_translatome_using_massively_integrated_coexpression_analysis/22289614'>figshare</a>.
         </p> 
-<p><b>To calculate coexpression</b> at the translatome scale in <i>S. cerevisiae</i>, we integrated a vast dataset of RNA-seq samples, applied center log ratio (clr) transformation, and used the proportionality metric ρ for quantification. We addressed data sparsity and reliability by discarding observations with low raw counts and setting a minimum sample threshold, resulting in an 11,630 by 11,630 coexpression matrix. Additionally, we normalized the data using spatial quantile normalization (SpQN) to correct for expression level biases, and created a network representation by considering only the top 0.2% of ρ values between all ORF pairs. We investigated canonical ORFs (cORFs), those that have been studied in depth and mostly shown to be involved in a variety of biological processes, and noncanonical ORFs (nORFs) that were excluded from genome annotations because of their short length, lack of evolutionary conservation, and perceived irrelevance to cellular physiology. We studied 5,803 cORFs and 5,827 nORFs.
+<p><b>To calculate coexpression</b> at the translatome scale in <i>S. cerevisiae</i>, we integrated a vast dataset of RNA-seq samples, applied center log ratio (clr) transformation, and used the proportionality metric ρ for quantification. We addressed data sparsity and reliability by discarding observations with low raw counts and setting a minimum sample threshold, resulting in an 11,630 by 11,630 coexpression matrix. Additionally, we normalized the coexpression data using spatial quantile normalization (SpQN) to correct for expression level biases, and created a network representation by considering only the top 0.2% of ρ values between all ORF pairs. We investigated canonical ORFs (cORFs), those that have been studied in depth and mostly shown to be involved in a variety of biological processes, and noncanonical ORFs (nORFs) that are usually excluded from genome annotations because of their short length, lack of evolutionary conservation, and perceived irrelevance to cellular physiology. We studied 5,803 cORFs and 5,827 nORFs.
 </p><br>
- <img src="about_img1.png" width="500" height="150"> <br>
+ <img src="about_img1.png" width="500"  style="padding:1px;border:thin solid black;"> <br><br><br>
+
 <p> The list of RNA-Seq data (SRA sample accessions) used is listed in <a href='https://figshare.com/ndownloader/files/39639466'> Supplementary Data 1</a>
-<p><b>To determine the transcriptional associations of nORFs with specific cellular processes</b>, we performed gene set enrichment analyses (GSEA) on the coexpression partners of each cORF and nORF. In this method, we took an ordered list of genes, sorted by their coexpression level, and assessed whether higher-ranked genes were preferentially annotated with specific Gene Ontology (GO) terms. This approach allowed us to identify potential functional associations of nORFs and cORFs with various cellular processes based on the patterns of coexpression.</p>
-<p>See methods of our paper for details</p>
-             <h1>Navigation</h1>
+<p>To determine the transcriptional associations of nORFs with specific cellular processes, we performed gene set enrichment analyses (GSEA) on the coexpression partners of each cORF and nORF. In this method, we took an ordered list of genes, sorted by their coexpression level, and assessed whether higher-ranked genes were preferentially annotated with specific Gene Ontology (GO) terms. This approach allowed us to identify potential functional associations of nORFs and cORFs with various cellular processes based on the patterns of coexpression.</p>
+<p>See methods of our paper for details.</p>
+<h1>Navigation</h1>
 <p><b>Main Navigation:</b> At the top, you'll find a navigation bar titled 'ORF Information App.' </p><p>This contains two main tabs: 'Search' and 'About.'</p>
-<p><b>Using the Search Function</b></p>
+<h3>Using the Search Function</h3>
 <p><b>Accessing the Search Tab:</b> Click on the 'Search' tab to begin exploring ORF data.</p>
 <p><b>Entering ORF Name:</b> In the sidebar, there's a text input field labeled 'Enter your ORF name here.' Type the name of the ORF you're interested in (e.g., orf14870, YBR196C, PGI1).</p> <br>
- <img src="about_img2.png" width="200" height="150"> <br>
+ <img src="about_img2.png" width="200" style="padding:1px;border:thin solid black;"> <br>
+ <br><br>
 <p><b>Selecting Result Type:</b> Below the text input, choose the type of results you want to view: 'Coexpression' or 'Sequence.'</p><br>
- <img src="about_img3.png" width="200" height="150"> <br>
-
+ <img src="about_img3.png" width="200"  style="padding:1px;border:thin solid black;"> <br>
+<br><br>
 <p><b>Submit Your Query:</b> After entering the ORF name and selecting the result type, click the 'Submit' button to proceed.</p>
 <h1>Viewing Results</h1>
 <p><b>Sequence Information:</b> If you chose 'Sequence' in the result type:</p>
@@ -27,7 +30,7 @@
     A section will appear displaying the sequence information of the ORF, including CDS (coding sequence), amino acid sequence, and genomic coordinates.
     You can copy sequences to clipboard for further use.
 </p>
- <img src="about_img4.png" width="500" height="250"> 
+ <img src="about_img4.png" width="500" style="padding:1px;border:thin solid black;"> <br><br><br>
 
 <p><b>Coexpression Information:</b> If 'Coexpression' is selected:</p>
 
@@ -42,12 +45,43 @@
         <li><b>NES</b> The normalized enrichment score.</li>
     </ul>
 
-    We used R package <a href='https://bioconductor.org/packages/release/bioc/html/fgsea.html'>fgsea</a> to perform GSEA. Algortihm details can be reached at <a href='https://www.biorxiv.org/content/10.1101/060012v3.full'>Korotkevich et al. 2021 </a>.
-</p>
-<p><b>Gene set enrichment analysis example</b></p>
- <img src="about_img5.png" width="500" height="250"><br><br>
-<p><b>Coexpression data</b></p>
- <img src="about_img6.png" width="500" height="250"> <br>
+    We used R package <a href='https://bioconductor.org/packages/release/bioc/html/fgsea.html'>fgsea</a> to perform GSEA. Algortihm details can be reached at <a href='https://www.biorxiv.org/content/10.1101/060012v3.full'>Korotkevich et al. 2021</a>.
+</p><br>
+<p><b>Gene Set Enrichment Analysis Example</b></p>
+ <img src="about_img5.png" width="500" style="padding:1px;border:thin solid black;"><br><br><br><br>
+
+<p><b>Coexpression Data</b></p>
+ <img src="about_img6.png" width="500" style="padding:1px;border:thin solid black;"> <br><br><br>
+
 
 <p>You can use sliders and filters to refine the coexpression network and thresholds.</p>
               
+<h1>Developed at the University of Pittsburgh by</h1>
+
+    <ul>
+        <li>Omer Acar</li>
+        <li>April Rich</li>
+        <li>Anne-Ruxandra Carvunis</li>
+    </ul>
+
+<h2>Thanks to the following R packages and their developers</h2>
+
+<ul>
+    <li><a href=https://www.tidyverse.org>tidyverse</a></li>
+    <li><a href=https://shiny.posit.co>shiny</a></li>
+    <li><a href=https://rstudio.github.io/DT>DT</a></li>
+    <li><a href=https://github.com/christophergandrud/networkD3>networkD3</a></li>
+    <li><a href=https://github.com/sbihorel/rclipboard>rclipboard</a></li>
+</ul>    
+
+    <h1>For more information</h1>
+
+    Massively Integrated Coexpression Analysis Reveals Transcriptional Regulation, Evolution and Cellular Implications of the Noncanonical Translatome.<br>
+    <strong>Rich A, Acar O, Carvunis AR</strong> <br>
+    bioRxiv 2023.03.16.533058; doi: <a href=https://doi.org/10.1101/2023.03.16.533058 >https://doi.org/10.1101/2023.03.16.533058 </a><br><br>
+
+    <img src="about_img7.png" width="200" style="padding:1px;border:thin solid black;"> 
+    <img src="about_img8.png" width="200" style="padding:1px;border:thin solid black;"> <br><br><br>
+
+
+</body>
