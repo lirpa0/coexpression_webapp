@@ -33,7 +33,7 @@ constructGenomeBrowserLink <- function(orf_coord_info){
   coor2 <- orf_coord_info$coor2+100
   
   
-   link <-glue::glue("https://browse.yeastgenome.org/?loc={chr}%3A{coor1}..{coor2}&tracks=DNA%2CAll%20Annotated%20Sequence%20Features%2CWacholder_2023_translated_orfs%2CWacholder_2023_riboseq_plus%2CWacholder_2023_riboseq_minus&highlight=")
+   link <-glue::glue("https://jbrowse.yeastgenome.org/?loc={chr}%3A{coor1}..{coor2}&tracks=DNA%2CAll%20Annotated%20Sequence%20Features%2CWacholder_2023_translated_orfs%2CWacholder_2023_riboseq_plus%2CWacholder_2023_riboseq_minus&highlight=")
    
    link
 }
